@@ -1,11 +1,12 @@
 package classProyect;
 
 import kotlin.Pair;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 public class PriceList {
     private Map<Integer, Pair<String, Double>> products = new HashMap<>();
+
 
     public boolean addProductAndPrice(Integer code, String item, Double price) {
         if ((products.containsKey(code) || item == null || price == null)) return false;
@@ -14,7 +15,6 @@ public class PriceList {
             return true;
 
         }
-
     }
 
     public boolean changeProductPrice (Integer code, Double price) {
@@ -42,12 +42,16 @@ public class PriceList {
             return true;
         }
     }
-    public Double totalCost(Integer code, Integer amount ) {
-        if (code == null || amount == null || amount < 0 || !products.containsKey(code)) return 0.0;
 
-        return products.get(code).component2() * amount;
-    }
+    public Double totalCost(Map<Integer, Integer> productsMap) {
+        double total = 0;
+         for(Integer productsMapKey : productsMap.keySet()) {
+             if (products.keySet().contains(productsMapKey)) {
+                 total += products.get(productsMapKey).component2() *  productsMap.get(productsMapKey);
+             }
+         }
+             return total;
+         }}
 
 
 
-}

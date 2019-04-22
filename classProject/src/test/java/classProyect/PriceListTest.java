@@ -1,5 +1,7 @@
 package classProyect;
 
+import java.util.HashMap;
+import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -7,15 +9,17 @@ public class PriceListTest {
     @org.junit.jupiter.api.Test
     void addProductAndPrice() {
         PriceList test = new PriceList();
-        boolean actual = test.addProductAndPrice(34589, "Картофель сетка 5кг упак",109.00);
+        boolean actual = test.addProductAndPrice(34589, "Картофель сетка 5кг упак", 109.00);
         assertTrue(actual);
     }
+
     @org.junit.jupiter.api.Test
     void addProductAndPrice_NullItem() {
         PriceList test = new PriceList();
         boolean actual = test.addProductAndPrice(34589, null, 109.00);
         assertFalse(actual);
     }
+
     @org.junit.jupiter.api.Test
     void addProductAndPrice_NullPrice() {
         PriceList test = new PriceList();
@@ -23,7 +27,6 @@ public class PriceListTest {
         assertFalse(actual);
     }
 
-    ///setUp
     @org.junit.jupiter.api.Test
     void changeProductPrice() {
         PriceList test = new PriceList();
@@ -33,6 +36,7 @@ public class PriceListTest {
         boolean actual = test.changeProductPrice(34589, 112.99);
         assertTrue(actual);
     }
+
     @org.junit.jupiter.api.Test
     void changeProductPrice_NullPrice() {
         PriceList test = new PriceList();
@@ -52,6 +56,7 @@ public class PriceListTest {
         boolean actual = test.changeProductName(12678, "Пластилин SAFARI детский 10 цв.. 200 г в ");
         assertTrue(actual);
     }
+
     @org.junit.jupiter.api.Test
     void changeProductName_WrongCode() {
         PriceList test = new PriceList();
@@ -71,6 +76,7 @@ public class PriceListTest {
         boolean actual = test.deleteProduct(90765);
         assertTrue(actual);
     }
+
     @org.junit.jupiter.api.Test
     void deleteProduct_NullCode() {
         PriceList test = new PriceList();
@@ -80,6 +86,7 @@ public class PriceListTest {
         boolean actual = test.deleteProduct(null);
         assertFalse(actual);
     }
+
     @org.junit.jupiter.api.Test
     void deleteProduct_WrongCode() {
         PriceList test = new PriceList();
@@ -89,35 +96,33 @@ public class PriceListTest {
         boolean actual = test.deleteProduct(89769);
         assertFalse(actual);
     }
+
     @org.junit.jupiter.api.Test
     void totalCost() {
         PriceList test = new PriceList();
         test.addProductAndPrice(44359, "Сыр плавленый Valio Viola с грибами-", 149.00);
         test.addProductAndPrice(71424, "Подгузники Huggies Elite Soft р4 8-14кг 66шт", 1289.00);
         test.addProductAndPrice(24697, "Кофе Nescafe Dolce Gusto американо", 523.90);
-        Double actual = test.totalCost(44359, 2);
-        assertTrue(actual.compareTo(298.00) == 0 );
+        Map<Integer, Integer> productsMap = new HashMap<>();
+        productsMap.put(44359, 4);
+        productsMap.put(71424, 1);
+        productsMap.put(24697, 2);
+
+        Double actual = test.totalCost(productsMap);
+        assertTrue(actual.compareTo(2932.8) == 0);
+
     }
+
     @org.junit.jupiter.api.Test
-    void totalCost_NullCode() {
+    void totalCost_EmptyMap() {
         PriceList test = new PriceList();
         test.addProductAndPrice(44359, "Сыр плавленый Valio Viola с грибами-", 149.00);
         test.addProductAndPrice(71424, "Подгузники Huggies Elite Soft р4 8-14кг 66шт", 1289.00);
         test.addProductAndPrice(24697, "Кофе Nescafe Dolce Gusto американо", 523.90);
-        Double actual = test.totalCost(null, 2);
-        assertTrue(actual.compareTo(0.0) == 0 );
+        Map<Integer, Integer> productsMap = new HashMap<>();
+
+        Double actual = test.totalCost(productsMap);
+        assertTrue(actual.compareTo(0.0) == 0);
+
     }
-    @org.junit.jupiter.api.Test
-    void totalCost_WrongAmount() {
-        PriceList test = new PriceList();
-        test.addProductAndPrice(44359, "Сыр плавленый Valio Viola с грибами-", 149.00);
-        test.addProductAndPrice(71424, "Подгузники Huggies Elite Soft р4 8-14кг 66шт", 1289.00);
-        test.addProductAndPrice(24697, "Кофе Nescafe Dolce Gusto американо", 523.90);
-        Double actual = test.totalCost(null, -23);
-        assertTrue(actual.compareTo(0.0) == 0 );
-    }
-
-
-
 }
-
